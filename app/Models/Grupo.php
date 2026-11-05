@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use DomainException;
 
 class Grupo extends Model
 {
@@ -44,5 +45,29 @@ class Grupo extends Model
     public function matriculas(): HasMany
     {
         return $this->hasMany(EstudianteMatriculado::class);
+    }
+
+    public function asignarDocente(Docente $docente): void
+    {
+        if ($this->docentes()->count() >= 2) {
+            throw new DomainException('Un grupo no puede tener más de 2 docentes.');
+        }
+
+        $this->docentes()->attach($docente->id);
+    }
+
+    public function puedeAbrirse(): bool
+    {
+        return $this->docentes()->count() >= 1
+            && $this->estudiantes()->count() >= 15;
+    }
+
+    public function abrir(): void
+    {
+        if (! $this->puedeAbrirse()) {
+            throw new DomainException('El grupo necesita al menos 1 docente y 15 estudiantes para abrirse.');
+        }
+
+        $this->update(['abierto' => true]);
     }
 }
