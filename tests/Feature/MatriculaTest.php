@@ -165,3 +165,22 @@ test('CP-13 un estudiante no se matricula dos veces en el mismo grupo', function
             ->count()
     )->toBe(1);
 });
+
+test('C3 Grupo acepta asignacion masiva de sus cinco atributos', function () {
+    $curso = Curso::factory()->create();
+
+    $grupo = Grupo::create([
+        'numeroCiclo' => 2,
+        'ano' => 2026,
+        'numeroGrupo' => 1,
+        'abierto' => false,
+        'curso_id' => $curso->id,
+    ]);
+
+    $guardado = Grupo::find($grupo->id);
+    expect($guardado->numeroCiclo)->toBe(2);
+    expect($guardado->ano)->toBe(2026);
+    expect($guardado->numeroGrupo)->toBe(1);
+    expect($guardado->abierto)->toBeFalse();
+    expect($guardado->curso_id)->toBe($curso->id);
+});
