@@ -7,6 +7,8 @@ use App\Models\EstudianteMatriculado;
 use App\Models\Grupo;
 use Illuminate\Database\QueryException;
 
+mutates(Grupo::class);
+
 function matriculaGrupo01(): Grupo
 {
     $curso = Curso::factory()->create([
