@@ -19,9 +19,10 @@ class Estudiante extends Model
         return $this->belongsTo(Docente::class, 'consejero_id');
     }
 
-    public function grupos(): BelongsToMany
+        public function grupos(): BelongsToMany
     {
-        return $this->belongsToMany(Grupo::class, 'estudiante_matriculados', 'estudiante_id', 'grupo_id')
+        return $this->belongsToMany(Grupo::class, 'estudiantes_matriculados', 'estudiante_id', 'grupo_id')
+            ->using(EstudianteMatriculado::class)
             ->withPivot('nota')
             ->withTimestamps();
     }

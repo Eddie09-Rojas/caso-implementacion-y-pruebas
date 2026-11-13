@@ -106,7 +106,7 @@ class CasosPruebaGrupoTest extends TestCase
         );
         $this->assertContains($grupo->id, $docente1001->grupos->pluck('id')->all());
 
-        $this->assertDatabaseCount('docente_grupo', 2);
+        $this->assertDatabaseCount('grupo_docente', 2);
     }
 
     public function test_cp04_un_grupo_rechaza_un_tercer_docente(): void
@@ -129,8 +129,8 @@ class CasosPruebaGrupoTest extends TestCase
 
         $this->assertTrue($lanzoExcepcion);
         $this->assertCount(2, $grupo->docentes()->get());
-        $this->assertDatabaseCount('docente_grupo', 2);
-        $this->assertDatabaseMissing('docente_grupo', ['docente_id' => $docente1003->id]);
+        $this->assertDatabaseCount('grupo_docente', 2);
+        $this->assertDatabaseMissing('grupo_docente', ['docente_id' => $docente1003->id]);
     }
 
     public function test_cp05_un_grupo_con_14_estudiantes_no_puede_abrirse(): void
