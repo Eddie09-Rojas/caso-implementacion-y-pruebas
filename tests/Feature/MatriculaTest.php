@@ -132,6 +132,8 @@ test('CP-11 registrar la nota al finalizar el curso', function () {
         ->first();
     expect($matricula->nota)->toBeFloat();
     expect($matricula->nota)->toBe(8.5);
+    expect($matricula->grupo_id)->toBe($grupo->id);
+    expect($matricula->estudiante_id)->toBe($estudiante->id);
 
     expect(EstudianteMatriculado::count())->toBe(2);
     $matriculaOtro = EstudianteMatriculado::where('estudiante_id', $otro->id)->first();
